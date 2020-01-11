@@ -46,7 +46,8 @@ CSG generate(){
 	println "Measurment zEncoderValue =  "+zEncoderValue
 	println "Measurment massKgValue =  "+massKgValue
 	// Stub of a CAD object
-	CSG part = new Cube().toCSG()
+	CSG part = new Cube(xDimentionValue,yDimentionValue,zDimentionValue).toCSG()
+				.toZMax()
 	return part
 		.setParameter(size)
 		.setRegenerate({generate()})
