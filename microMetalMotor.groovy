@@ -45,9 +45,23 @@ CSG generate(){
 	println "Measurment yEncoderValue =  "+yEncoderValue
 	println "Measurment zEncoderValue =  "+zEncoderValue
 	println "Measurment massKgValue =  "+massKgValue
+	
+	LengthParameter boltLength		= new LengthParameter("Bolt Length",10,[180,10])
+	boltLength.setMM(3)
+	CSG vitamin_capScrew_M16 = Vitamins.get("capScrew", boltSizeValue)
+							.toZMin()
+	
 	// Stub of a CAD object
 	CSG part = new Cube(xDimentionValue,yDimentionValue,zDimentionValue).toCSG()
 				.toZMax()
+				.union(vitamin_capScrew_M16.movey(boltDistanceFromShaftValue))
+				.union(vitamin_capScrew_M16.movey(-boltDistanceFromShaftValue))
+	if(encoderValue>0){
+		CSG encoder = new Cube(xEncoderValue,yEncoderValue,zEncoderValue).toCSG()
+						.toZMax()
+						.movez(-zDimentionValue)
+		part=part.union(encoder)
+	}
 	return part
 		.setParameter(size)
 		.setRegenerate({generate()})
